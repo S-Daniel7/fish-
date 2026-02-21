@@ -1,31 +1,41 @@
+import localFont from "next/font/local";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "../components/Button";
 import Card from "../components/Card";
 
+const ubuntuBold = localFont({
+  src: "./fonts/Ubuntu-Bold.ttf",
+  display: "swap",
+});
+
+const DmSans = localFont({
+  src: "./fonts/DMSans-VariableFont.ttf",
+  display: "swap",
+});
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen text-white bg-gradient-to-b from-sky-500 via-sky-950 to-slate-850">
+    <main className="min-h-screen bg-white text-[#ede7e3]">
       {/* Top Nav */}
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-sky-900">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#484cee3]">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           {/* Logo + Name */}
           <div className="flex items-center gap-3">
               <Image
-                src="/phish_logo.png"
+                src="/phishhook-logo.png"
                 alt="PhishHook logo"
                 width={72}
                 height={72}
               />
-          <span className="text-4xl font-semibold tracking-wide">
-              <span className="text-green-500">Phish</span>
-              <span className="text-purple-400">Hook</span>
-          </span>
+          <span className={`${ubuntuBold.className} text-4xl`}>
+              <span className="text-[#123E45]">PhishHook</span>
 
-          </div>
+          </span>
+        </div>
 
           {/* Nav buttons */}
-          <nav className="flex items-center gap-2">
+          <nav className={`${DmSans.className} flex items-center gap-2`}>
             <Link href="/resources">
               <Button variant="secondary">Resources</Button>
             </Link>
@@ -43,16 +53,18 @@ export default function HomePage() {
       <section className="mx-auto max-w-6xl px-4 py-10">
         {/* Hero area (motto + start) */}
         <div className="text-center">
-          <p className="mt-2 text-2xl font-semibold tracking-wide md: text-3xl text-cyan-200/90">
+          <p className={`${ubuntuBold.className} mt-2 text-2xl font-semibold tracking-wide md:text-3xl text-green-600`}>
             The danger is close — but avoidable.
           </p>
-          <h1 className="mt-2 text-4xl font-semibold tracking-tight md:text-4xl text-cyan-400">
+          <h1 className={`${ubuntuBold.className} mt-2 text-4xl font-semibold tracking-tight md:text-4xl text-cyan-600`}>
             Learn to recognize the hook before it reaches you.
           </h1>
 
           <div className="mt-6 flex justify-center">
             <Link href="/practice">
-              <Button>Start Practicing</Button>
+              <Button className={`${DmSans.className} mt-5 px-8 py-4 text-lg rounded-xl`}>
+                      Start Practicing
+              </Button>
             </Link>
           </div>
         </div>

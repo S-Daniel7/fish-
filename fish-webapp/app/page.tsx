@@ -12,7 +12,12 @@ export default function HomePage() {
           Minimal Next.js scaffold ready for your hackathon.
         </p>
         <div className="mt-6 flex gap-3">
-          <Button>Start</Button>
+          <a
+            href="/quiz"
+            className="rounded-md bg-indigo-600 px-6 py-3 text-lg font-medium text-white focus-visible:outline-none focus-visible:ring-2"
+          >
+            Scam Quiz
+          </a>
           <Button variant="secondary">Dashboard</Button>
         </div>
       </Card>

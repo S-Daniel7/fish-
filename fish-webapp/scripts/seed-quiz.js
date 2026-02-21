@@ -9,8 +9,8 @@
  */
 const { MongoClient } = require('mongodb');
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
-const dbName = process.env.MONGODB_DB || 'scamquiz';
+const uri = process.env.MONGODB_URI || 'mongodb+srv://octobermorning_db_user:KtM19ZQohM8v6Gva@cluster0.jxqtpow.mongodb.net/?appName=Cluster0';
+const dbName = process.env.MONGODB_DB || 'appdb';
 
 const sampleQuizzes = [
   {

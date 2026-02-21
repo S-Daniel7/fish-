@@ -113,8 +113,8 @@ export default function QuizPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <p className="text-lg text-zinc-600 dark:text-zinc-400">
+      <div className="flex min-h-screen items-center justify-center bg-sky-50 dark:bg-slate-900">
+        <p className="text-lg text-sky-700 dark:text-sky-300">
           Loading quiz...
         </p>
       </div>
@@ -123,11 +123,11 @@ export default function QuizPage() {
 
   if (error) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-zinc-50 p-8 dark:bg-zinc-950">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-sky-50 p-8 dark:bg-slate-900">
         <p className="text-red-600 dark:text-red-400">{error}</p>
         <button
           onClick={loadQuizzes}
-          className="rounded-lg bg-zinc-800 px-4 py-2 text-white hover:bg-zinc-700 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+          className="rounded-lg bg-teal-600 px-4 py-2 text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600"
         >
           Retry
         </button>
@@ -137,8 +137,8 @@ export default function QuizPage() {
 
   if (!current) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-zinc-50 p-8 dark:bg-zinc-950">
-        <p className="text-zinc-600 dark:text-zinc-400">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-sky-50 p-8 dark:bg-slate-900">
+        <p className="text-sky-700 dark:text-sky-300">
           No quizzes available. Add quiz items to MongoDB to get started.
         </p>
       </div>
@@ -146,21 +146,21 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="min-h-screen bg-sky-50 dark:bg-slate-900">
       <div className="mx-auto max-w-2xl px-6 py-12">
-        <h1 className="mb-2 text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+        <h1 className="mb-2 text-2xl font-bold text-sky-900 dark:text-sky-50">
           Scam Call Quiz
         </h1>
-        <p className="mb-8 text-zinc-600 dark:text-zinc-400">
+        <p className="mb-8 text-sky-700 dark:text-sky-300">
           Listen to the call and select all aspects that indicate a scam.
         </p>
 
-        <div className="mb-8 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+        <div className="mb-8 rounded-xl border-2 border-sky-200 bg-white p-6 shadow-md dark:border-sky-700 dark:bg-slate-800">
+          <h2 className="mb-4 text-lg font-semibold text-sky-900 dark:text-sky-50">
             {current.title}
           </h2>
           {current.script && (
-            <p className="mb-4 whitespace-pre-wrap text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="mb-4 whitespace-pre-wrap text-sm text-sky-700 dark:text-sky-300">
               {current.script}
             </p>
           )}
@@ -177,7 +177,7 @@ export default function QuizPage() {
         </div>
 
         <div className="mb-8">
-          <h3 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+          <h3 className="mb-4 text-lg font-semibold text-sky-900 dark:text-sky-50">
             Select all scam red flags you notice:
           </h3>
           <div className="flex flex-wrap gap-3">
@@ -194,14 +194,14 @@ export default function QuizPage() {
                   disabled={submitted}
                   className={`rounded-lg border-2 px-4 py-2 text-left text-sm font-medium transition-colors ${
                     showCorrect
-                      ? 'border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200'
+                      ? 'border-teal-500 bg-teal-50 text-teal-800 dark:bg-teal-950 dark:text-teal-200'
                       : showWrong
                         ? 'border-red-500 bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-200'
                         : showMissed
-                          ? 'border-amber-500 bg-amber-50 text-amber-800 dark:bg-amber-950 dark:text-amber-200'
+                          ? 'border-sky-500 bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200'
                           : isSelected
-                            ? 'border-zinc-900 bg-zinc-100 dark:border-zinc-100 dark:bg-zinc-800'
-                            : 'border-zinc-200 bg-white hover:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-zinc-500'
+                            ? 'border-teal-600 bg-teal-50 dark:border-teal-400 dark:bg-teal-900/50'
+                            : 'border-sky-200 bg-white hover:border-sky-400 dark:border-sky-700 dark:bg-slate-800 dark:hover:border-sky-500'
                   }`}
                 >
                   {opt.text}
@@ -217,24 +217,24 @@ export default function QuizPage() {
           <button
             onClick={handleSubmit}
             disabled={selected.size === 0}
-            className="rounded-lg bg-zinc-900 px-6 py-3 font-semibold text-white hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+            className="rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white shadow-md hover:bg-teal-700 disabled:opacity-50 dark:bg-teal-500 dark:hover:bg-teal-600"
           >
             Submit Answers
           </button>
         ) : (
           <div className="space-y-4">
             {score !== null && (
-              <p className="text-lg text-zinc-700 dark:text-zinc-300">
+              <p className="text-lg text-sky-800 dark:text-sky-200">
                 You identified <strong>{score.correct}</strong> of{' '}
                 <strong>{score.total}</strong> scam red flags.
               </p>
             )}
             {current.scamAspects.length > 0 && (
-              <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900">
-                <h4 className="mb-2 font-semibold text-zinc-900 dark:text-zinc-50">
+              <div className="rounded-lg border-2 border-sky-200 bg-sky-50 p-4 dark:border-sky-700 dark:bg-slate-800">
+                <h4 className="mb-2 font-semibold text-sky-900 dark:text-sky-50">
                   Key red flags:
                 </h4>
-                <ul className="list-inside list-disc space-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+                <ul className="list-inside list-disc space-y-1 text-sm text-sky-700 dark:text-sky-300">
                   {current.scamAspects.map((a, i) => (
                     <li key={i}>
                       <strong>{a.text}</strong> — {a.explanation}
@@ -245,7 +245,7 @@ export default function QuizPage() {
             )}
             <button
               onClick={resetQuiz}
-              className="rounded-lg bg-zinc-900 px-6 py-3 font-semibold text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              className="rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white shadow-md hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600"
             >
               Try Another Quiz
             </button>

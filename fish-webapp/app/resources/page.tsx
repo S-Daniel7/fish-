@@ -1,14 +1,10 @@
+"use client";
+
+import Link from "next/link";
+
 export default function ResourcesPage() {
     return (
-        <main className="min-h-screen">
-            <div className="fixed inset-0 -z-10 overflow-hidden bg-[#BFE8E8]">
-                <img
-                    src="/water.gif"
-                    alt="Water background"
-                    className="absolute left-0 top-[-320px] h-[calc(100%+640px)] w-full object-cover opacity-55 brightness-65"
-                />
-            </div>
-
+        <main className="min-h-screen bg-[#5FA3B3]">
             <div className="mx-auto max-w-7xl px-6 py-16 text-center lg:px-16">
                 <div className="mx-auto mb-16 inline-block rounded-2xl border border-white/40 bg-[#BFE8E8]/90 px-10 py-6 shadow-lg backdrop-blur-md">
                     <h1 className="text-7xl font-semibold text-[#08333A]">
@@ -21,16 +17,9 @@ export default function ResourcesPage() {
                         <img src="/coral.png" alt="" className="absolute left-0 top-8 z-10 w-44 drop-shadow-lg pointer-events-none" />
                         <img src="/coral.png" alt="" className="absolute right-0 top-8 z-10 w-44 scale-x-[-1] drop-shadow-lg pointer-events-none" />
 
-                        <img src="/fish.png" alt="" className="absolute left-14 top-56 z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-16 top-[22rem] z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute left-24 top-[34rem] z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-24 top-[46rem] z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute left-10 bottom-24 z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-10 bottom-40 z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-
                         <div className="relative z-30">
-                            <div className="mx-auto inline-block rounded-lg border border-white/50 bg-[#A6D6D6] px-6 py-3 shadow-sm">
-                                <h2 className="text-4xl font-semibold text-[#08333A]">
+                            <div className="mx-auto inline-block rounded-lg border border-white/40 bg-[#7FBFC0] px-6 py-3 shadow-sm">
+                                <h2 className="text-4xl font-semibold text-[#032024]">
                                     Guides
                                 </h2>
                             </div>
@@ -122,14 +111,9 @@ export default function ResourcesPage() {
                         <img src="/coral.png" alt="" className="absolute left-0 top-8 z-10 w-44 drop-shadow-lg pointer-events-none" />
                         <img src="/coral.png" alt="" className="absolute right-0 top-8 z-10 w-44 scale-x-[-1] drop-shadow-lg pointer-events-none" />
 
-                        <img src="/fish.png" alt="" className="absolute left-14 top-56 z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-16 top-[22rem] z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute left-24 top-[34rem] z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-24 top-[46rem] z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-
                         <div className="relative z-30">
-                            <div className="mx-auto inline-block rounded-lg border border-white/50 bg-[#A6D6D6] px-6 py-3 shadow-sm">
-                                <h2 className="text-4xl font-semibold text-[#08333A]">
+                            <div className="mx-auto inline-block rounded-lg border border-white/40 bg-[#7FBFC0] px-6 py-3 shadow-sm">
+                                <h2 className="text-4xl font-semibold text-[#032024]">
                                     Helpful Links
                                 </h2>
                             </div>
@@ -153,14 +137,9 @@ export default function ResourcesPage() {
                         <img src="/coral.png" alt="" className="absolute left-0 top-8 z-10 w-44 drop-shadow-lg pointer-events-none" />
                         <img src="/coral.png" alt="" className="absolute right-0 top-8 z-10 w-44 scale-x-[-1] drop-shadow-lg pointer-events-none" />
 
-                        <img src="/fish.png" alt="" className="absolute left-14 top-56 z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-16 top-[22rem] z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute left-24 bottom-28 z-20 w-64 rotate-0 opacity-25 pointer-events-none" />
-                        <img src="/fish.png" alt="" className="absolute right-24 bottom-44 z-20 w-64 rotate-0 scale-x-[-1] opacity-25 pointer-events-none" />
-
                         <div className="relative z-30">
-                            <div className="mx-auto inline-block rounded-lg border border-white/50 bg-[#A6D6D6] px-6 py-3 shadow-sm">
-                                <h2 className="text-4xl font-semibold text-[#08333A]">
+                            <div className="mx-auto inline-block rounded-lg border border-white/40 bg-[#7FBFC0] px-6 py-3 shadow-sm">
+                                <h2 className="text-4xl font-semibold text-[#032024]">
                                     Tools
                                 </h2>
                             </div>
@@ -169,10 +148,27 @@ export default function ResourcesPage() {
                                 Interactive tools on our website to educate you on how to stay safe.
                             </p>
 
-                            <ul className="mt-8 list-none space-y-6 text-[#05272C]">
-                                <li>Home page</li>
-                                <li>Practice scenarios</li>
-                            </ul>
+                            <div className="mt-10 flex flex-col items-center gap-6">
+                                <Link
+                                    href="/"
+                                    className="rounded-xl border border-white/50 bg-white px-10 py-3 text-lg font-semibold text-[#08333A] shadow-sm transition hover:bg-[#A6D6D6]"
+                                >
+                                    Home Page
+                                </Link>
+
+                                <Link
+                                    href="/practice"
+                                    className="rounded-xl border border-white/50 bg-white px-10 py-3 text-lg font-semibold text-[#08333A] shadow-sm transition hover:bg-[#A6D6D6]"
+                                >
+                                    Practice Scenarios
+                                </Link>
+                                <Link
+                                    href="/risk"
+                                    className="rounded-xl border border-white/50 bg-white px-10 py-3 text-lg font-semibold text-[#08333A] shadow-sm transition hover:bg-[#A6D6D6]"
+                                >
+                                    Risk Calculator
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </section>

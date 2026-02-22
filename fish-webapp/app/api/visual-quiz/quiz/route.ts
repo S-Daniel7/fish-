@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.EXPRESS_BACKEND_URL || 'http://localhost:3000';
+const BACKEND_URL = process.env.EXPRESS_BACKEND_URL || 'http://10.136.9.104.:3000/login';
+
 
 export async function GET(request: NextRequest) {
   const level = request.nextUrl.searchParams.get('level') || '1';

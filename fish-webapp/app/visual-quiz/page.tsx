@@ -7,10 +7,14 @@ interface BackendQuiz {
   _id: string;
   level?: number;
   title?: string;
+  body?: string;
   scenario?: string;
+  fromEmail?: string;
+  fromName?: string;
   image?: string;
   flags: string[];
-  options?: string[];
+  options: string[];
+  distractors?: string[];
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -21,6 +25,10 @@ function shuffle<T>(arr: T[]): T[] {
   }
   return out;
 }
+
+
+const levelScoresCache: Record<number, { score: number; total: number }> = {};
+
 
 export default function VisualQuizPage() {
   const [level, setLevel] = useState(1);
@@ -35,6 +43,8 @@ export default function VisualQuizPage() {
     total: number;
     correct: string[];
   } | null>(null);
+  
+  const[showFinal,setShowFinal] = useState(false);
 
   const loadQuiz = useCallback(async () => {
     setLoading(true);
@@ -44,16 +54,15 @@ export default function VisualQuizPage() {
     setSubmitted(false);
     setResult(null);
     try {
-      const res = await fetch(`/api/visual-quiz/quiz?level=${level}`);
+      const res = await fetch(`http://localhost:5000/api/visual-quiz/quiz?level=${level}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to load quiz');
       if (!data._id) throw new Error('No quiz returned');
       const quizId = typeof data._id === 'string' ? data._id : data._id.toString();
       setQuiz({ ...data, _id: quizId });
-      const optionList = Array.isArray(data.options) && data.options.length > 0
-        ? data.options
-        : data.flags || [];
-      setChoices(shuffle(optionList));
+     const flags = data.flags || [];
+      const distractors = data.distractors || [];
+      setChoices(shuffle([...flags, ...distractors]));
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load quiz');
     } finally {
@@ -75,30 +84,76 @@ export default function VisualQuizPage() {
     });
   };
 
-  const handleSubmit = async () => {
-    if (!quiz || submitted) return;
-    setSubmitted(true);
-    try {
-      const res = await fetch('/api/visual-quiz/attempt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: 'web-user',
-          quizId: quiz._id,
-          selectedFlags: Array.from(selected),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to submit');
-      setResult({
-        score: data.score ?? 0,
-        total: data.total ?? 0,
-        correct: data.correct ?? [],
-      });
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to submit');
-    }
-  };
+  
+const handleSubmit = async () => {
+  if (!quiz || submitted) return;
+  setSubmitted(true);
+
+  const correctFlags = quiz.flags || [];
+  const selectedArray = Array.from(selected);
+  
+  const correctSelected = selectedArray.filter(item => correctFlags.includes(item));
+  const score = correctSelected.length;
+  const total = correctFlags.length;
+
+  setResult({
+    score,
+    total,
+    correct: correctFlags,
+  });
+
+  levelScoresCache[level] = { score, total };
+
+};
+
+const goNext = () => {
+  if  (!submitted) return;
+  if (level < 5) {
+    setLevel((l) => l + 1);
+  } else {
+    setShowFinal(true);
+  };}
+
+const goPrev = () => {
+  if (level > 1)  setLevel((l) => l - 1); };
+
+
+
+
+if (showFinal) {
+  const totalScore = Object.values(levelScoresCache).reduce((sum, s) => sum + s.score, 0);
+  const totalPossible = Object.values(levelScoresCache).reduce((sum, s) => sum + s.total, 0);
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-sky-50 p-8 dark:bg-slate-900">
+      <h1 className="text-3xl font-bold text-sky-900 dark:text-sky-50">Quiz Complete!</h1>
+      <p className="text-xl text-sky-700 dark:text-sky-300">
+        Total Score: <strong>{totalScore}</strong> / <strong>{totalPossible}</strong>
+      </p>
+      <div className="w-full max-w-sm space-y-2">
+        {[1,2,3,4,5].map((l) => {
+          const s = levelScoresCache[l];
+          return (
+            <div key={l} className="flex justify-between rounded-lg bg-white px-4 py-2 shadow dark:bg-slate-800">
+              <span className="text-sky-700 dark:text-sky-300">Level {l}</span>
+              <span className={s ? (s.score === s.total ? 'text-teal-600' : 'text-red-500') : 'text-sky-400'}>
+                {s ? `${s.score} / ${s.total}` : 'Skipped'}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <button onClick={() => { setShowFinal(false); setLevel(1); Object.keys(levelScoresCache).forEach(k => delete levelScoresCache[Number(k)]); }}
+        className="rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700">
+        Try Again
+      </button>
+      <Link href="/" className="text-sky-600 hover:underline dark:text-sky-400">Home</Link>
+    </div>
+  );
+}
+
+
+
+
 
   if (loading) {
     return (
@@ -115,7 +170,7 @@ export default function VisualQuizPage() {
         <p className="text-center text-sm text-sky-600 dark:text-sky-400">
           Start the Express backend with: <code className="rounded bg-sky-200 px-1 dark:bg-slate-700">node server.js</code> (in the folder with server.js), and set <code className="rounded bg-sky-200 px-1 dark:bg-slate-700">EXPRESS_BACKEND_URL</code> in .env if it runs on a different port.
         </p>
-        <div className="flex gap-3">
+        <div className="flex items gap-3">
           <button
             onClick={loadQuiz}
             className="rounded-lg bg-teal-600 px-4 py-2 text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600"
@@ -151,19 +206,22 @@ export default function VisualQuizPage() {
           <Link href="/" className="text-sky-600 hover:text-sky-800 dark:text-sky-400 dark:hover:text-sky-200">
             ← Home
           </Link>
-          <label className="flex items-center gap-2 text-sm text-sky-700 dark:text-sky-300">
-            Level
-            <select
-              value={level}
-              onChange={(e) => setLevel(Number(e.target.value))}
-              disabled={loading}
-              className="rounded border border-sky-300 bg-white px-2 py-1 dark:border-sky-600 dark:bg-slate-800 dark:text-sky-100"
-            >
-              {[1, 2, 3, 4, 5].map((n) => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </select>
-          </label>
+                        
+              <div className="flex items-center gap-3">
+                <button onClick={goPrev} disabled={level === 1 || loading}
+                  className="rounded-lg border border-sky-300 px-3 py-1 text-sky-700 hover:bg-sky-100 disabled:opacity-30">
+                  ←
+                </button>
+                <span className="text-sm font-semibold text-sky-700 dark:text-sky-300">
+                  Level {level} / 5
+                </span>
+                <button onClick={goNext} disabled={loading}
+                  className="rounded-lg border border-sky-300 px-3 py-1 text-sky-700 hover:bg-sky-100 disabled:opacity-30">
+                  →
+                </button>
+              </div>
+
+
         </div>
 
         <h1 className="mb-2 text-2xl font-bold text-sky-900 dark:text-sky-50">
@@ -174,6 +232,31 @@ export default function VisualQuizPage() {
             {quiz.scenario}
           </p>
         )}
+        {quiz.body && (
+          <div className = "mb-6 rounded-xl border-2 border-sky-200 bg-white dark:border-sky-700 dark:bg-slate-800">
+            <p className="whitespace-pre-wrap p-4 text-sm text-sky-800 dark:text-sky-200">{quiz.body}</p>
+          </div>
+        )}
+        {(quiz.fromName||quiz.fromEmail) && (
+         <div className="mb-6 rounded-xl border border-sky-200 bg-sky-100 dark:border-sky-700 dark:bg-slate-700">
+    <div className="border-b border-sky-200 px-4 py-2 dark:border-sky-700">
+      <p className="text-sm text-sky-800 dark:text-sky-200">
+        <span className="font-semibold">From: </span>{quiz.fromName} &lt;{quiz.fromEmail}&gt;
+      </p>
+    </div>
+    {quiz.scenario && (
+      <div className="px-4 py-2">
+        <p className="text-sm text-sky-800 dark:text-sky-200">
+          <span className="font-semibold">Subject: </span>{quiz.scenario}
+        </p>
+      </div>
+    )}
+  </div>
+)}
+
+
+
+
         {quiz.image && (
           <div className="mb-6 overflow-hidden rounded-xl border-2 border-sky-200 dark:border-sky-700">
             <img src={quiz.image} alt="" className="w-full object-cover" />
@@ -188,9 +271,9 @@ export default function VisualQuizPage() {
             {choices.map((item) => {
               const isSelected = selected.has(item);
               const isCorrect = correctSet.has(item);
-              const showCorrect = submitted && isCorrect;
+              const showCorrect = submitted && isSelected&& isCorrect;
               const showWrong = submitted && isSelected && !isCorrect;
-              const showMissed = submitted && isCorrect && !isSelected;
+              const showMissed = submitted && !isSelected && isCorrect;
               return (
                 <button
                   key={item}
@@ -212,6 +295,7 @@ export default function VisualQuizPage() {
                   {item}
                   {showMissed && ' (missed)'}
                   {showWrong && ' (not a flag)'}
+                  {showCorrect && ' (correct)'}
                 </button>
               );
             })}
@@ -231,12 +315,17 @@ export default function VisualQuizPage() {
             <p className="text-lg text-sky-800 dark:text-sky-200">
               Score: <strong>{result.score}</strong> / <strong>{result.total}</strong> correct
             </p>
-            <button
-              onClick={loadQuiz}
-              className="rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white shadow-md hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600"
-            >
-              Try again
-            </button>
+            <div className="flex gap-3">
+                <button onClick={loadQuiz}
+                  className="rounded-lg border border-sky-300 px-4 py-2 hover:bg-sky-100 dark:border-sky-600">
+                  Try Again
+                </button>
+                <button onClick={goNext}
+                  className="rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white hover:bg-teal-700">
+                  {level < 5 ? 'Next Level →' : 'See Final Score'}
+                </button>
+              </div>
+
             <Link
               href="/"
               className="ml-3 inline-block rounded-lg border border-sky-300 px-6 py-3 hover:bg-sky-100 dark:border-sky-600 dark:hover:bg-slate-800"

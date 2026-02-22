@@ -10,14 +10,14 @@ async function run() {
     console.log("✅ Connected");
 
     const db = client.db("appdb");
-    const quizzes = db.collection("quizzes");
+    const quizzes = db.collection("scam_training");
     const attempts = db.collection("attempts");
 
     // 1) Pick a quiz (level 2)
     const quiz = await quizzes.findOne({ level: 2 });
     if (!quiz) throw new Error("Quiz not found");
 
-    // 2) Pretend the user selected these flags (you can change this list)
+    // 2) Pretend the user selected these flags 
     const selectedFlags = [
       "Sense of urgency (due today / late fees)",
       "No identifying details (your name, company, service)"

@@ -4,7 +4,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 export async function GET() {
   try {
     const db = await connectToDatabase();
-    const quizzes = await db.collection('scam_quizzes').find({}).toArray();
+    const quizzes = await db.collection('audio_training').find({}).toArray();
     const data = quizzes.map((q) => ({
       ...q,
       _id: q._id.toString(),

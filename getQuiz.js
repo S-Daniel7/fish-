@@ -10,7 +10,7 @@ async function run() {
     console.log("✅ Connected");
 
     const db = client.db("appdb");
-    const quizzes = db.collection("quizzes");
+    const quizzes = db.collection("scam_training");
 
     // Get ONE quiz from level 2
     const quiz = await quizzes.findOne({ level: 2 });

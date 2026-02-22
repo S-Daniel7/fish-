@@ -1,6 +1,6 @@
 # Visual Quiz (backend JS / MongoDB Atlas)
 
-This page is the frontend for the **Express backend** (`server.js`) that uses the `quizzes` and `attempts` collections in MongoDB Atlas (database: `appdb`).
+This page is the frontend for the **Express backend** (`server.js`) that uses the `scam_training` and `attempts` collections in MongoDB Atlas (database: `appdb`).
 
 ## How to run
 
@@ -22,9 +22,9 @@ This page is the frontend for the **Express backend** (`server.js`) that uses th
 
 4. Open **http://localhost:3000/visual-quiz** (or 3000 if you run Next there).
 
-## Quiz document shape (MongoDB `quizzes`)
+## Quiz document shape (MongoDB `scam_training`)
 
-Each quiz in the `quizzes` collection should have:
+Each quiz in the `scam_training` collection should have:
 
 | Field     | Type     | Required | Description |
 |----------|----------|----------|-------------|

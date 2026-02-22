@@ -1,15 +1,8 @@
 @import "tailwindcss";
-
+@tailwind utilities;
 :root {
-  --background: #f0f9ff;
-  --foreground: #0c4a6e;
-  --card: #ffffff;
-  --card-border: #bae6fd;
-  --accent: #0d9488;
-  --accent-hover: #0f766e;
-}
-
-@theme inline {
+  --background: #ffffff;
+  --foreground: #171717;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -18,17 +11,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0c4a6e;
-    --foreground: #e0f2fe;
-    --card: #0e5a7a;
-    --card-border: #0e7490;
-    --accent: #14b8a6;
-    --accent-hover: #2dd4bf;
+    --background: #0a0a0a;
+    --foreground: #ededed;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), Arial, Helvetica, sans-serif;
+}
+@keyframes water {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.water-bg {
+  background-image: linear-gradient(120deg, #a5f3fc, #67e8f9, #38bdf8);
+  background-size: 300% 300%;
+  animation: water 120s ease infinite;
 }

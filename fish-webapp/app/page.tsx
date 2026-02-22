@@ -23,7 +23,7 @@ export default function HomePage() {
           </h1>
 
           <div className="mt-8 flex justify-center">
-            <Link href="/practice">
+            <Link href="/select-quiz">
               <Button
                 className="rounded-xl px-10 py-5 text-xl"
                 style={{ fontFamily: "var(--font-ubuntu)" }}
